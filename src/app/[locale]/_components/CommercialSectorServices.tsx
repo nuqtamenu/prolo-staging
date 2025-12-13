@@ -28,7 +28,7 @@ export default function CommercialSectorServices({ hovered, setHovered, title, s
     <div
       className={`group bg-base1 relative flex flex-col justify-between overflow-hidden rounded-xl pt-8 transition-all duration-300 ${
         hovered === "none" ? "w-[49%]" : hovered === "right" ? "w-[78%]" : "w-[20%]"
-      } lg:h-[400px]`}
+      } lg:h-[450px]`}
       onMouseEnter={() => setHovered("right")}
     >
       {/* Title & Button */}
@@ -53,7 +53,7 @@ export default function CommercialSectorServices({ hovered, setHovered, title, s
 
         {/* Services Boxes */}
         <div
-          className={`grid w-full grid-cols-3 gap-2 overflow-hidden opacity-0 transition-opacity delay-400 duration-300 group-hover:opacity-100`}
+          className={`grid w-full grid-cols-4 gap-2 overflow-hidden opacity-0 transition-opacity delay-400 duration-300 group-hover:opacity-100`}
         >
           {services.cards.map((service, ind) => (
             <ServiceCard

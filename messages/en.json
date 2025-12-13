@@ -1728,7 +1728,7 @@
         "uniqueSlug": "fulfillment-service",
 
         "pageTitle": {
-          "heading": "Fulfillment Service",
+          "heading": "Complete inventory management service for e-commerce stores (fulfillment)",
           "description": "A complete solution for storing products, managing inventory and orders, packaging, and shipping for e-commerce stores inside the Kingdom.",
           "image": "/images/services/commercial-sector-services/fulfillment-service/hero-bg.png"
         },
@@ -2106,12 +2106,6 @@
             "slug": "storage-for-others"
           },
           {
-            "name": "Fulfillment service",
-            "description": "Store, track, and manage orders",
-            "link": "/services/commercial-sector-services/fulfillment-service",
-            "slug": "fulfillment-service"
-          },
-          {
             "name": "Operational Leasing",
             "description": "Providing vehicles with drivers, operational management, and vehicle rental services",
             "link": "/services/commercial-sector-services/operational-leasing",
@@ -2122,6 +2116,12 @@
             "description": "Refrigerated shipping for online stores and various sectors",
             "link": "/services/commercial-sector-services/refrigerated-shipping",
             "slug": "commercial-refrigerated-shipping"
+          },
+          {
+            "name": "Complete inventory management service for e-commerce stores (fulfillment)",
+            "description": "Store, track, and manage orders",
+            "link": "/services/commercial-sector-services/fulfillment-service",
+            "slug": "fulfillment-service"
           }
         ]
       }
@@ -2335,7 +2335,7 @@
             "slug": "storage-for-others"
           },
           {
-            "text": "Fulfillment service",
+            "text": "Complete inventory management service for e-commerce stores (Fulfillment)",
             "link": "/services/commercial-sector-services/fulfillment-service",
             "slug": "fulfillment-service"
           },

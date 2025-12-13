@@ -27,7 +27,7 @@ export default function IndividualServices({ hovered, setHovered, title, service
   const cards = JSON.parse(JSON.stringify(serv.cards)) as Service[];
   return (
     <div
-      className={`group bg-base1 relative flex flex-col justify-between overflow-hidden rounded-xl px-8 pt-8 transition-all duration-300 lg:h-[400px] ${
+      className={`group bg-base1 relative flex flex-col justify-between overflow-hidden rounded-xl px-8 pt-8 transition-all duration-300 lg:h-[450px] ${
         hovered === "none" ? "w-[49%]" : hovered === "right" ? "w-[20%]" : "w-[78%]"
       }`}
       onMouseEnter={() => setHovered("left")}

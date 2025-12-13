@@ -1701,7 +1701,7 @@
         "slug": "fulfillment-service",
         "uniqueSlug": "fulfillment-service",
         "pageTitle": {
-          "heading": "خدمة الفولفلمنت",
+          "heading": "خدمة إدارة المخزون الكاملة للمتاجر الإلكترونية ( الفلفيلمنت)",
           "description": "حل متكامل لتخزين المنتجات وإدارة المخزون والطلبات والتعبئة والشحن لمتاجر التجارة الإلكترونية داخل المملكة.",
           "image": "/images/services/commercial-sector-services/fulfillment-service/hero-bg.png"
         },
@@ -1946,7 +1946,7 @@
     ]
   },
   "footer": {
-    "cr": "رقم السجل التجاري: 7010996598 — جزء من مجموعة أدوار",
+    "cr": "رقم السجل التجاري: 7010996598 — علامة تجارية مملوكة لشركة أدوار",
     "cta": { "title": "جاهز تشحن بثقة مع برولو؟" },
     "footerText": "© ٢٠٢٥ prolo.sa – كل الحقوق محفوظة.",
     "quickLinks": {
@@ -2007,9 +2007,9 @@
     "support": {
       "title": "الدعم",
       "links": [
-        { "text": "الأسئلة الشائعة", "link": "/support/faq" },
-        { "text": "موقع مراكز الخدمة", "link": "/support/locator" },
-        { "text": "خدمة العملاء", "link": "/support/contact" }
+        { "text": "الأسئلة الشائعة", "link": "/#faqs" },
+        { "text": "موقع مراكز الخدمة", "link": "/contact/#service-centers" },
+        { "text": "خدمة العملاء", "link": "/contact" }
       ]
     },
     "contact": {
@@ -2082,7 +2082,7 @@
         "title": "خدمات الأفراد",
         "cards": [
           {
-            "name": "الشحن السريع بوليت ديليفري",
+            "name": "الشحن فائق السرعة (Bullet Delivery)",
             "description": "خدمة شحن سريع بتتبع مباشر",
             "link": "/services/individual-services/bullet-delivery",
             "slug": "individual-bullet-delivery"
@@ -2111,13 +2111,13 @@
             "slug": "last-mile"
           },
           {
-            "name": "توصيل فائق السرعة (بوليت ديليفري)",
+            "name": "توصيل فائق السرعة (Bullet Delivery)",
             "description": "طلبات فورية فائقة السرعة",
             "link": "/services/commercial-sector-services/bullet-delivery",
             "slug": "commercial-bullet-delivery"
           },
           {
-            "name": "الشحن - (B2B)",
+            "name": "خدمة شحن البضائع ( قطاع الأعمال B2B)",
             "description": "شحن البضائع داخل المملكة",
             "link": "/services/commercial-sector-services/b2b-shipping",
             "slug": "b2b-shipping"
@@ -2127,12 +2127,6 @@
             "description": "مساحات تخزينية مرنة وآمنة",
             "link": "/services/commercial-sector-services/storage-for-others",
             "slug": "storage-for-others"
-          },
-          {
-            "name": "خدمة الفولفلمنت",
-            "description": "إدارة المخزون والطلبات للمتاجر الالكترونية",
-            "link": "/services/commercial-sector-services/fulfillment-service",
-            "slug": "fulfillment-service"
           },
           {
             "name": "التأجير التشغيلي",
@@ -2145,6 +2139,12 @@
             "description": "شحن مبرد للمتاجر الإلكترونية والقطاعات المختلفة",
             "link": "/services/commercial-sector-services/refrigerated-shipping",
             "slug": "commercial-refrigerated-shipping"
+          },
+          {
+            "name": "خدمة إدارة المخزون الكاملة للمتاجر الإلكترونية ( الفلفيلمنت)",
+            "description": "إدارة المخزون والطلبات للمتاجر الالكترونية",
+            "link": "/services/commercial-sector-services/fulfillment-service",
+            "slug": "fulfillment-service"
           }
         ]
       }
@@ -2317,7 +2317,7 @@
         "title": "خدمات الأفراد",
         "links": [
           {
-            "text": "الشحن السريع بوليت ديليفري",
+            "text": "الشحن فائق السرعة (Bullet Delivery)",
             "link": "/services/individual-services/bullet-delivery",
             "slug": "individual-bullet-delivery"
           },
@@ -2342,12 +2342,12 @@
             "slug": "last-mile"
           },
           {
-            "text": "توصيل فائق السرعة (بوليت ديليفري)",
+            "text": "توصيل فائق السرعة (Bullet Delivery)",
             "link": "/services/commercial-sector-services/bullet-delivery",
             "slug": "commercial-bullet-delivery"
           },
           {
-            "text": "الشحن - (B2B)",
+            "text": "خدمة شحن البضائع ( قطاع الأعمال B2B)",
             "link": "/services/commercial-sector-services/b2b-shipping",
             "slug": "b2b-shipping"
           },
@@ -2357,7 +2357,7 @@
             "slug": "storage-for-others"
           },
           {
-            "text": "خدمة الفولفلمنت",
+            "text": "خدمة إدارة المخزون الكاملة للمتاجر الإلكترونية ( الفلفيلمنت)",
             "link": "/services/commercial-sector-services/fulfillment-service",
             "slug": "fulfillment-service"
           },

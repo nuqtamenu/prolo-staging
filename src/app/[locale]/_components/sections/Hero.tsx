@@ -13,7 +13,7 @@ export default function Hero() {
   return (
     <section
       id="#hero"
-      className="sm:py-auto relative z-1 flex h-auto w-full flex-col items-center justify-center py-16 text-white sm:min-h-dvh"
+      className="sm:py-auto relative z-1 flex h-dvh w-full flex-col items-center justify-center py-16 text-white"
     >
       {/* Overlay */}
       <div className="absolute inset-0 h-full w-full">
@@ -21,7 +21,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="prolo-container relative z-2 flex h-full w-full flex-col items-center justify-between gap-8 pt-[50px] sm:gap-12 sm:pt-10 md:gap-16">
+      <div className="prolo-container relative z-2 flex h-auto w-full flex-col items-center justify-between gap-8 sm:gap-12 md:gap-16">
         <div>
           {/* Top - title */}
           <h2 className="mx-auto text-center text-2xl/tight font-bold text-white sm:w-[60%] sm:text-3xl/tight">

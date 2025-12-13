@@ -31,7 +31,6 @@ export default function HeroSlider() {
             height={1067}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1898px"
             loading="eager"
-            quality={65}
           />
           <div className="absolute inset-0 z-2 bg-black/30"></div>
         </SwiperSlide>
@@ -44,7 +43,6 @@ export default function HeroSlider() {
             height={1067}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1898px"
             loading="lazy"
-            quality={60}
           />
           <div className="absolute inset-0 z-2 bg-black/30"></div>
         </SwiperSlide>

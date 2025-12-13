@@ -63,7 +63,7 @@ export default async function RootLayout({ children, params }: Props) {
   const fontClass = isArabic ? tajawal.className : satoshi.className + " tracking-tight";
 
   return (
-    <html lang={locale} dir={isArabic ? "rtl" : "ltr"} className={fontClass}>
+    <html lang={locale} dir={isArabic ? "rtl" : "ltr"} className={fontClass + " scroll-smooth"}>
       <body>
         <NextIntlClientProvider>
           <HeaderContainer>
