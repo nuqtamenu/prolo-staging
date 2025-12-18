@@ -80,14 +80,15 @@ export default function CreateShipmentForm() {
   const formSteps: string[] = messagesData.createShipmentPage.formSteps;
 
   const addresses = isEn ? englishAddresses : arbicAddresses;
-  const regions = addresses
+
+  const cities = addresses
     .filter((addr, ind, self) => {
-      return ind === self.findIndex(t => t.regionId === addr.regionId);
+      return ind === self.findIndex(t => t.cityId === addr.cityId);
     })
     .map(addr => {
       return {
-        value: addr.regionId,
-        name: addr.regionName,
+        value: addr.cityId,
+        name: addr.cityName,
       };
     })
     .sort((a, b) =>
@@ -96,49 +97,20 @@ export default function CreateShipmentForm() {
         .localeCompare(b.name.toLocaleLowerCase(), locale, { sensitivity: "base" })
     );
 
-  const destinationRegionId = watch("destinationRegionId");
-  const [destinationCities, setDestinationCities] = useState<
-    { value: string | number; name: string }[]
-  >([]);
   const [destinationVillages, setDestinationVillages] = useState<
     { value: string | number; name: string }[]
   >([]);
   const destinationCityId = watch("destinationCityId");
 
   useEffect(() => {
-    // Destination Region is changed
-    if (destinationRegionId) {
-      // Reset Cities & Villages
-      setDestinationCities([]);
-      setDestinationVillages([]);
-      setValue("destinationCityId", "");
-      setValue("destinationVillageId", "");
-      // Find cities in that destination
-      const cities = addresses
-        .filter(addr => addr.regionId === destinationRegionId)
-        .map(addr => {
-          return {
-            value: addr.cityId,
-            name: addr.cityName,
-          };
-        })
-        .filter((city, ind, self) => {
-          return ind === self.findIndex(cit => cit.value === city.value);
-        })
-        .sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase(), locale, { sensitivity: "base" })
-        );
-
-      setDestinationCities(cities);
-    }
-  }, [destinationRegionId, addresses, locale, setValue]);
-
-  useEffect(() => {
     // Destination City is changed
-
     if (destinationCityId) {
       // Reset Villages
       setDestinationVillages([]);
+      setValue(
+        "destinationRegionId",
+        addresses.find(addr => addr.cityId === destinationCityId)?.regionId || ""
+      );
       setValue("destinationVillageId", "");
 
       const villages = addresses
@@ -157,47 +129,20 @@ export default function CreateShipmentForm() {
   }, [destinationCityId, addresses, setValue, locale]);
 
   // For Origin Adresses
-  const originRegionId = watch("originRegionId");
-  const [originCities, setOriginCities] = useState<{ value: string | number; name: string }[]>([]);
   const [originVillages, setOriginVillages] = useState<{ value: string | number; name: string }[]>(
     []
   );
   const originCityId = watch("originCityId");
 
   useEffect(() => {
-    // Origin is changed
-    if (originRegionId) {
-      // Reset Cities & Villages
-      setOriginCities([]);
-      setOriginVillages([]);
-      setValue("originCityId", "");
-      setValue("originVillageId", "");
-      // Find cities in that origin
-      const cities = addresses
-        .filter(addr => addr.regionId === originRegionId)
-        .map(addr => {
-          return {
-            value: addr.cityId,
-            name: addr.cityName,
-          };
-        })
-        .filter((city, ind, self) => {
-          return ind === self.findIndex(cit => cit.value === city.value);
-        })
-        .sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase(), locale, { sensitivity: "base" })
-        );
-      console.log("cities: ", cities);
-
-      setOriginCities(cities);
-    }
-  }, [originRegionId, addresses, locale, setValue]);
-
-  useEffect(() => {
     // City is changed
     if (originCityId) {
       // Reset Villages
       setOriginVillages([]);
+      setValue(
+        "originRegionId",
+        addresses.find(addr => addr.cityId === originCityId)?.regionId || ""
+      );
       setValue("originVillageId", "");
 
       const villages = addresses
@@ -364,20 +309,10 @@ export default function CreateShipmentForm() {
             </legend>
             <div className="form-grid">
               <Select
-                icon="oui:vis-map-region"
-                label={messages.originRegionId.label}
-                id="originRegionId"
-                options={regions}
-                placeholder={messages.originRegionId.placeholder}
-                registerProps={{ ...register("originRegionId", { required: true }) }}
-                error={errors.originRegionId && messages.originRegionId.error}
-              />
-
-              <Select
                 icon="solar:city-outline"
                 label={messages.originCityId.label}
                 id="originCityId"
-                options={originCities}
+                options={cities}
                 placeholder={messages.originCityId.placeholder}
                 registerProps={{ ...register("originCityId", { required: true }) }}
                 error={errors.originCityId && messages.originCityId.error}
@@ -449,20 +384,10 @@ export default function CreateShipmentForm() {
             </legend>
             <div className="form-grid">
               <Select
-                icon="oui:vis-map-region"
-                label={messages.destinationRegionId.label}
-                id="destinationRegionId"
-                options={regions}
-                placeholder={messages.destinationRegionId.placeholder}
-                registerProps={{ ...register("destinationRegionId", { required: true }) }}
-                error={errors.destinationRegionId && messages.destinationRegionId.error}
-              />
-
-              <Select
                 icon="solar:city-outline"
                 label={messages.destinationCityId.label}
                 id="destinationCityId"
-                options={destinationCities}
+                options={cities}
                 placeholder={messages.destinationCityId.placeholder}
                 registerProps={{ ...register("destinationCityId", { required: true }) }}
                 error={errors.destinationCityId && messages.destinationCityId.error}
