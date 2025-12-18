@@ -34,11 +34,11 @@ export default function Select({
         <select
           id={id}
           {...registerProps}
-          className={`w-full grow border-none p-1 text-base text-black outline-none ${className}`}
+          className={`w-full grow border-none p-1 text-base text-black capitalize outline-none ${className}`}
         >
           <option value={""}>{placeholder}</option>
           {options.map((option, ind) => (
-            <option key={ind} value={option.value}>
+            <option key={ind} value={option.value} className="capitalize">
               {option.name}
             </option>
           ))}

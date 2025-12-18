@@ -337,7 +337,8 @@
         "retry": "Retry Shipment",
         "support": "Contact Support"
       }
-    }
+    },
+    "loadingText": "Creating Your Shipment"
   },
   "contactPage": {
     "pageTitle": {

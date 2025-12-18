@@ -332,7 +332,8 @@
         "retry": "إعادة المحاولة",
         "support": "الاتصال بالدعم"
       }
-    }
+    },
+    "loadingText": "جارٍ إنشاء شحنتك"
   },
   "contactPage": {
     "pageTitle": {

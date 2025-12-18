@@ -78,6 +78,7 @@ export default function CreateShipmentForm() {
   const messages = messagesData.forms.fields;
   const legends = messagesData.forms.legends;
   const formSteps: string[] = messagesData.createShipmentPage.formSteps;
+  const loadingText = messagesData.createShipmentPage.loadingText || "Creating Your Shipment";
 
   const addresses = isEn ? englishAddresses : arbicAddresses;
 
@@ -175,6 +176,7 @@ export default function CreateShipmentForm() {
   }, [shipmentType, setValue]);
 
   const onSubmit: SubmitHandler<CreateShipmentFormInputs> = async data => {
+    console.log(data);
     setLoader(true);
 
     const shipmentResponse: ShipmentResponse | ApiError = await fetch("/api/create-shipment", {
@@ -237,7 +239,7 @@ export default function CreateShipmentForm() {
     return (
       <div className="flex min-h-[60vh] w-full flex-col items-center justify-center">
         <div className="loader"></div>
-        <h3 className="mt-6 text-center text-2xl">Creating Your Shipment</h3>
+        <h3 className="mt-6 text-center text-2xl">{loadingText}</h3>
       </div>
     );
   }
