@@ -22,7 +22,10 @@ export default async function TrackingPage({ params }: PageProps) {
     );
   }
 
+  console.log("Order Status: ", data.status);
   const isCancelled = data.status === "CANCELLED";
+  const isDelivered = data.status === "DELIVERED_TO_RECIPIENT";
+  const isPicked = data.status === "PICKED";
   const isAr = locale === "ar";
   const dateLocale = isAr ? ar : enUS;
 
@@ -63,14 +66,20 @@ export default async function TrackingPage({ params }: PageProps) {
       <section>
         <div className="prolo-container">
           {/* Package Status */}
-          <div className={`${isCancelled ? "bg-red-400" : "bg-base1"} w-full rounded-2xl p-6`}>
-            <h3 className="text-lg font-medium">{t("orderStatus")}</h3>
+          <div
+            className={`${isCancelled ? "bg-red-400" : "bg-base1"} relative w-full rounded-2xl p-6`}
+          >
+            <h3 className="absolute top-3 left-3 text-sm font-medium sm:top-6 sm:left-6 sm:text-lg">
+              {t("orderStatus")}
+            </h3>
             <div className="mt-4 w-full">
-              <h4 className={`${!isCancelled && "text-green-600"} text-center text-5xl font-bold`}>
+              <h4
+                className={`${!isCancelled && "text-green-600"} text-center text-3xl font-bold sm:text-5xl`}
+              >
                 {statusText}
               </h4>
-              {expectedAt && (
-                <p className="mt-2 flex items-center justify-center gap-2 text-center text-sm">
+              {expectedAt && !isCancelled && !isDelivered && !isPicked && (
+                <p className="mt-2 flex items-center justify-center gap-2 text-center text-xs sm:text-sm">
                   <span className="inline-block font-medium">{t("expected")} :</span>
                   <span className="inline-block">{expectedAt}</span>
                 </p>
@@ -136,12 +145,12 @@ export default async function TrackingPage({ params }: PageProps) {
             </ul>
           </div>
 
-          <hr className="my-5 border-gray-300" />
+          {/* <hr className="my-5 border-gray-300" /> */}
 
           {/* Footer */}
-          <div className="text-center text-sm text-gray-600">
+          {/* <div className="text-center text-sm text-gray-600">
             {t("poweredBy")} : <strong>{data.businessSenderName || "شركة لوجستكس"}</strong>
-          </div>
+          </div> */}
         </div>
       </section>
     </div>

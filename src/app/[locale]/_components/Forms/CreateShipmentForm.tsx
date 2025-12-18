@@ -271,7 +271,7 @@ export default function CreateShipmentForm() {
             destAddr.cityName,
             destAddr.regionName,
           ].join(", "),
-      shipmentType: data.shipmentType as "COD" | "REGULAR" | "SWAP" | "BRING",
+      shipmentType: data.shipmentType as "COD" | "REGULAR",
       quantity: data.quantity,
       notes: data.notes,
       description: data.description,
