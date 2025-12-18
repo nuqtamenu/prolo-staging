@@ -182,7 +182,7 @@ export type CreateShipmentFormData = {
   receiverName: string;
   receiverPhone: string;
   destinationAddress: string;
-  shipmentType: "COD" | "REGULAR" | "SWAP" | "BRING";
+  shipmentType: "COD" | "REGULAR";
   quantity: number | string;
   notes: string;
   description: string;

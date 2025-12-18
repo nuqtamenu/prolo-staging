@@ -39,9 +39,7 @@ export default function CreateShipmentForm() {
 
   const shipmentTypeOptions = [
     { value: "COD", name: "COD" },
-    { value: "REGULAR", name: "REGULAR" },
-    { value: "SWAP", name: "SWAP" },
-    { value: "BRING", name: "BRING" },
+    { value: "REGULAR", name: "PREPAID" },
   ];
 
   const router = useRouter();
@@ -50,7 +48,6 @@ export default function CreateShipmentForm() {
   const stepValidationMap: Record<number, (keyof CreateShipmentFormInputs)[]> = {
     1: [
       "senderName",
-      "businessSenderName",
       "senderPhone",
       "originRegionId",
       "originCityId",
@@ -219,7 +216,6 @@ export default function CreateShipmentForm() {
   }, [originCityId, addresses, setValue, locale]);
 
   // Shipment type functionality
-  // Only COD value is allowed when shipment type is COD
   const [disableCod, setDisableCod] = useState(false);
   const shipmentType = watch("shipmentType");
 
@@ -281,9 +277,6 @@ export default function CreateShipmentForm() {
       description: data.description,
     };
 
-    console.log("Shipment Data");
-    console.log(shipmentData);
-
     fetch("/api/save-shipment", {
       method: "POST",
       body: JSON.stringify(shipmentData),
@@ -343,7 +336,7 @@ export default function CreateShipmentForm() {
                 id="businessSenderName"
                 placeholder={messages.businessSenderName.placeholder}
                 error={errors.businessSenderName && messages.businessSenderName.error}
-                registerProps={{ ...register("businessSenderName", { required: true }) }}
+                registerProps={{ ...register("businessSenderName") }}
               />
 
               <Input
