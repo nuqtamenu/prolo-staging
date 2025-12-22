@@ -2535,5 +2535,27 @@
     "title": "Download Prolo App",
     "playstore": "https://play.google.com/store/apps/details?id=com.prolo.customerapp&hl=en-US&pli=1",
     "appstore": "https://apps.apple.com/sa/app/prolo/id6747319697"
+  },
+  "emails": {
+    "header": { "logoAlt": "Prolo Logistics" },
+    "subscription": {
+      "customer": {
+        "heading": "Thank You for Subscribing!",
+        "description": "We appreciate your interest in PROLO Logistics. Our team will contact you shortly with more information.",
+        "ctaText": "Get A Qoute"
+      },
+      "company": {
+        "heading": "New Subscriber Added",
+        "description": "A new user has subscribed to the PROLO Logistics email list. Below are the details submitted via the subscription form:",
+        "subscriberLabel": "Email:",
+        "followUp": "Please ensure the subscriber is added to the mailing list and follow up as needed.",
+        "copyright": "© 2025 PROLO Logistics, Saudi Arabia. Internal Notification."
+      }
+    },
+    "footer": {
+      "copyright": "© 2025 PROLO Logistics, Saudi Arabia. All rights reserved.",
+      "visitUs": "Visit us at",
+      "companyInfo": "PROLO specializes in logistics solutions across Saudi Arabia, ensuring reliable and efficient services for businesses and individuals."
+    }
   }
 }

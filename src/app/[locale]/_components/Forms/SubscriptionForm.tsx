@@ -19,9 +19,11 @@ type FormMessages = {
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Input, ButtonClient } from "../components";
-import { useMessages } from "next-intl";
+import { useLocale, useMessages } from "next-intl";
 import axios from "axios";
 import { useState } from "react";
+import { EmailMessages } from "@/lib/types";
+import { getSubscritionEmailBody } from "@/lib/emailBodies";
 
 export default function SubscriptionForm() {
   const {
@@ -34,12 +36,31 @@ export default function SubscriptionForm() {
   const messages = useMessages();
   const formMessages = messages.forms as FormMessages;
   const fields = formMessages.fields;
+  const emailMessages = messages.emails as EmailMessages;
+  const locales = useLocale();
 
   const onSubmit: SubmitHandler<SubscriptionInputs> = async data => {
     setIsLoading(true);
     try {
       await axios.post("/api/subscribe", {
         email: data.email,
+      });
+
+      // HTML Content For Email
+      const customerHtml = getSubscritionEmailBody("customer", data, locales, emailMessages);
+      const companyHtml = getSubscritionEmailBody("company", data, locales, emailMessages);
+
+      // Sending To Customer
+      await axios.post("/api/send-email", {
+        to: data.email,
+        subject: emailMessages.subscription.customer.heading,
+        html: customerHtml,
+      });
+      // Sending To Company
+      await axios.post("/api/send-email", {
+        to: "nuqtamenu@gmail.com",
+        subject: emailMessages.subscription.customer.heading,
+        html: companyHtml,
       });
 
       setIsLoading(false);

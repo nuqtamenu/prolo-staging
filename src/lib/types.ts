@@ -187,3 +187,27 @@ export type CreateShipmentFormData = {
   notes: string;
   description: string;
 };
+
+export type EmailMessages = {
+  header: { logoAlt: string };
+  subscription: {
+    customer: {
+      heading: string;
+      description: string;
+      ctaText: string;
+    };
+    company: {
+      heading: string;
+      description: string;
+      subscriberLabel: string;
+      followUp: string;
+      copyright: string;
+    };
+  };
+
+  footer: {
+    copyright: string;
+    visitUs: string;
+    companyInfo: string;
+  };
+};
