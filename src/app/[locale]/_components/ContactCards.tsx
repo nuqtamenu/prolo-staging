@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import { getMessages } from "next-intl/server";
 import Link from "next/link";
 
@@ -40,13 +41,30 @@ export default async function ContactCards() {
         {/* Phone */}
         <div className="bg-base1 rounded-xl p-6">
           <h5 className="text-base font-medium">📞 {contactMessages.phone.title}</h5>
-          <Link dir="ltr" href={`tel:${contactMessages.phone.number}`} className="hover:underline">
-            {contactMessages.phone.number}
-          </Link>
-          <br />
-          <Link dir="ltr" href={`tel:${contactMessages.phone.number2}`} className="hover:underline">
-            {contactMessages.phone.number2}
-          </Link>
+          <div className="mt-2 flex items-center gap-2">
+            <div className="size-4">
+              <Icon icon={"hugeicons:whatsapp"} className="size-4" />
+            </div>
+            <Link
+              dir="ltr"
+              href={`https://api.whatsapp.com/send?phone=${contactMessages.phone.number}`}
+              className="hover:underline"
+            >
+              {contactMessages.phone.number}
+            </Link>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex size-4 items-center">
+              <Icon icon={"hugeicons:call-02"} className="size-4" />
+            </div>
+            <Link
+              dir="ltr"
+              href={`tel:${contactMessages.phone.number2}`}
+              className="hover:underline"
+            >
+              {contactMessages.phone.number2}
+            </Link>
+          </div>
         </div>
         {/* Emails */}
         <div className="bg-base1 rounded-xl p-6">

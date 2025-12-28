@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 type BranchCardProps = {
@@ -13,13 +14,23 @@ export default function BranchCard({ title, location, contact, email }: BranchCa
       <p className="mt-2 hidden text-sm">{location}</p>
       <ul className="mt-4">
         <li>
-          <Link dir="ltr" href={`tel:${contact}`} className="hover:underline">
-            📞 {contact}
-          </Link>{" "}
+          <Link
+            href={`https://api.whatsapp.com/send?phone=${contact}`}
+            className="flex items-center gap-2 hover:underline"
+          >
+            <span className="flex size-4 items-center">
+              <Icon icon={"hugeicons:whatsapp"} className="size-4" />
+            </span>{" "}
+            {contact}
+          </Link>
         </li>
+        {/* Email */}
         <li>
-          <Link dir="ltr" href={`mailto:${email}`} className="hover:underline">
-            📧 {email}
+          <Link href={`mailto:${email}`} className="flex items-center gap-2 hover:underline">
+            <span className="flex size-4 items-center">
+              <Icon icon={"hugeicons:mail-02"} className="size-4" />
+            </span>{" "}
+            {email}
           </Link>
         </li>
       </ul>

@@ -297,7 +297,7 @@
     },
     "helpPara": {
       "first": "Need immediate assistance? Call us directly at",
-      "phone": "+966558996861",
+      "phone": "966558996861",
       "mid": "or chat with",
       "ourSupport": "our support",
       "last": "team for quick help."
@@ -355,7 +355,7 @@
       },
       "phone": {
         "title": "Calling & WhatsApp",
-        "number": "+966558996861",
+        "number": "966558996861",
         "number2": "800304448"
       },
       "emails": {
@@ -379,31 +379,31 @@
         {
           "name": "Central Region (Riyadh Branch)",
           "location": "Riyadh, Saudi Arabia",
-          "phone": "+966558996861",
+          "phone": "966558996861",
           "email": "info@adwar.com.sa"
         },
         {
           "name": "Eastern Province (Dammam City)",
           "location": "Dammam, Saudi Arabia",
-          "phone": "+966558996861",
+          "phone": "966558996861",
           "email": "info@adwar.com.sa"
         },
         {
           "name": "Western Region (Jeddah - Taif)",
           "location": "Jeddah / Taif, Saudi Arabia",
-          "phone": "+966558996861",
+          "phone": "966558996861",
           "email": "info@adwar.com.sa"
         },
         {
           "name": "Medina Region (Madinah)",
           "location": "Madinah, Saudi Arabia",
-          "phone": "+966558996861",
+          "phone": "966558996861",
           "email": "info@adwar.com.sa"
         },
         {
           "name": "Qassim Region (Buraydah)",
           "location": "Buraydah, Saudi Arabia",
-          "phone": "+966558996861",
+          "phone": "966558996861",
           "email": "info@adwar.com.sa"
         }
       ]
@@ -2000,9 +2000,9 @@
           "link": "https://maps.app.goo.gl/iGAvzR5hLBnKpUgX9"
         },
         {
-          "icon": "hugeicons:call-02",
-          "text": "+966558996861",
-          "link": "tel:+966558996861"
+          "icon": "hugeicons:whatsapp",
+          "text": "966558996861",
+          "link": "https://api.whatsapp.com/send?phone=966558996861"
         },
         {
           "icon": "hugeicons:mail-02",
