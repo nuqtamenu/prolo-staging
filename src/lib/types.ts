@@ -98,6 +98,7 @@ export type Address = {
 export type CreateShipmentFormInputs = {
   // Step One Sender
   senderName: string;
+  senderEmail: string;
   businessSenderName: string;
   senderPhone: string;
   originRegionId: string;
@@ -107,6 +108,7 @@ export type CreateShipmentFormInputs = {
 
   // Step 2 Receiver
   receiverName: string;
+  receiverEmail: string;
   receiverPhone: string;
   destinationRegionId: string;
   destinationCityId: string;
@@ -128,7 +130,7 @@ export type ShipmentResponse = {
   status: string;
   cod: number;
   createdDate: string;
-
+  expectedDeliveryDate: string;
   senderPhone: string;
   receiverPhone: string;
 
@@ -157,8 +159,8 @@ export type ContactFormData = {
   name: string;
   email: string;
   phone: string;
-  city: string;
-  company: string;
+  city?: string;
+  company?: string;
   message: string;
 };
 
@@ -172,20 +174,34 @@ export type GetAQuoteFormData = {
 };
 
 export type CreateShipmentFormData = {
-  id: string | number;
-  barcode: string | number;
-  cod: string | number;
+  // Sender
   senderName: string;
+  senderEmail: string;
   senderBusinessName: string;
-  senderPhone: string;
-  originAddress: string;
+  originAddressArabic: string;
+  originAddressEnglish: string;
+
+  // Receiver
   receiverName: string;
+  receiverEmail: string;
   receiverPhone: string;
-  destinationAddress: string;
+  destinationAddressArabic: string;
+  destinationAddressEnglish: string;
+
+  // originAddress: string;
+  // destinationAddress: string;
+
+  // Shipment
+  shipmentId: string | number;
+  trackingId: string | number;
+  barcodeImageUrl: string;
+  cod: string | number;
+  senderPhone: string;
   shipmentType: "COD" | "REGULAR";
   quantity: number | string;
   notes: string;
   description: string;
+  expectedDeliveryDate: string;
 };
 
 export type EmailMessages = {

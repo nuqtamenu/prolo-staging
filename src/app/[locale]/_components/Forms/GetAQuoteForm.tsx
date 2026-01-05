@@ -1,7 +1,7 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Input, SelectServices, Textarea, ButtonClient } from "../components";
-import { useMessages } from "next-intl";
+import { useLocale, useMessages } from "next-intl";
 import axios from "axios";
 import { useState } from "react";
 
@@ -150,15 +150,15 @@ export default function GetAQuoteForm({ slug }: { slug?: string }) {
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const locales = useLocale();
   const onSubmit: SubmitHandler<Inputs> = async data => {
     setIsLoading(true);
     try {
-      await axios.post("/api/get-a-quote", {
-        ...data,
-        service: getSelectedService(data.service).text,
-      });
-
+      const reqBody = {
+        locales,
+        data: { ...data, service: getSelectedService(data.service).text || "Service Unknown" },
+      };
+      axios.post("/api/get-a-quote", reqBody);
       setIsLoading(false);
       setIsSubmitted(true);
     } catch (error) {

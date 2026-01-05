@@ -82,6 +82,11 @@
         "placeholder": "Enter sender's full name",
         "error": "Sender name is required"
       },
+      "senderEmail": {
+        "label": "Sender Email",
+        "placeholder": "Enter your email address",
+        "error": "Sender email is required"
+      },
       "businessSenderName": {
         "label": "Business Name (Optional)",
         "placeholder": "Enter business name (if applicable)",
@@ -117,6 +122,11 @@
         "label": "Receiver Name",
         "placeholder": "Enter receiver's full name",
         "error": "Receiver name is required"
+      },
+      "receiverEmail": {
+        "label": "Receiver Email",
+        "placeholder": "Enter recipient's email address",
+        "error": "Receiver email is required"
       },
       "receiverPhone": {
         "label": "Receiver Phone",

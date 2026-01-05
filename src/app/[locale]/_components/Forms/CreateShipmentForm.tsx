@@ -14,6 +14,7 @@ import type {
   ApiError,
   CreateShipmentFormData,
 } from "@/lib/types";
+import axios from "axios";
 
 export default function CreateShipmentForm() {
   const {
@@ -48,6 +49,7 @@ export default function CreateShipmentForm() {
   const stepValidationMap: Record<number, (keyof CreateShipmentFormInputs)[]> = {
     1: [
       "senderName",
+      "senderEmail",
       "senderPhone",
       "originRegionId",
       "originCityId",
@@ -56,6 +58,7 @@ export default function CreateShipmentForm() {
     ],
     2: [
       "receiverName",
+      "receiverEmail",
       "receiverPhone",
       "destinationRegionId",
       "destinationCityId",
@@ -81,6 +84,16 @@ export default function CreateShipmentForm() {
   const loadingText = messagesData.createShipmentPage.loadingText || "Creating Your Shipment";
 
   const addresses = isEn ? englishAddresses : arbicAddresses;
+
+  function getAddresses(villId: string) {
+    const engAdd = englishAddresses.find(add => add.villageId === villId);
+    const arAdd = arbicAddresses.find(add => add.villageId === villId);
+
+    return {
+      englishAddress: `${engAdd?.villageName}, ${engAdd?.cityName}, ${engAdd?.regionName}`,
+      arabicAddress: `${arAdd?.villageName}, ${arAdd?.cityName}, ${arAdd?.regionName}`,
+    };
+  }
 
   const cities = addresses
     .filter((addr, ind, self) => {
@@ -190,49 +203,46 @@ export default function CreateShipmentForm() {
     }
 
     // Build addresses
-    const originAddr = addresses.find(addr => addr.villageId === data.originVillageId);
-    const destAddr = addresses.find(addr => addr.villageId === data.destinationVillageId);
+    const originAddr = getAddresses(data.originVillageId);
+    const destAddr = getAddresses(data.destinationVillageId);
 
     const shipmentData: CreateShipmentFormData = {
-      id: shipmentResponse.id,
-      barcode: shipmentResponse.barcode,
+      // Shipment
+      shipmentId: shipmentResponse.id,
+      trackingId: shipmentResponse.barcode,
+      barcodeImageUrl: shipmentResponse.barcodeImage,
       cod: data.cod,
-      senderName: data.senderName,
-      senderBusinessName: data.businessSenderName,
-      senderPhone: data.senderPhone,
-      originAddress: !originAddr
-        ? ""
-        : [
-            data.originAddressLine1,
-            originAddr.villageName,
-            originAddr.cityName,
-            originAddr.regionName,
-          ].join(", "),
-      receiverName: data.receiverName,
-      receiverPhone: data.receiverPhone,
-      destinationAddress: !destAddr
-        ? ""
-        : [
-            data.destinationAddressLine1,
-            destAddr.villageName,
-            destAddr.cityName,
-            destAddr.regionName,
-          ].join(", "),
       shipmentType: data.shipmentType as "COD" | "REGULAR",
       quantity: data.quantity,
       notes: data.notes,
       description: data.description,
+      expectedDeliveryDate: shipmentResponse.expectedDeliveryDate,
+
+      // Sender
+      senderName: data.senderName,
+      senderEmail: data.senderEmail,
+      senderBusinessName: data.businessSenderName,
+      senderPhone: data.senderPhone,
+      originAddressArabic: `${data.originAddressLine1}, ${originAddr.arabicAddress}`,
+      originAddressEnglish: `${data.originAddressLine1}, ${originAddr.englishAddress}`,
+
+      // Receiver
+      receiverName: data.receiverName,
+      receiverEmail: data.receiverEmail,
+      receiverPhone: data.receiverPhone,
+      destinationAddressArabic: `${data.destinationAddressLine1}, ${destAddr.arabicAddress}`,
+      destinationAddressEnglish: `${data.destinationAddressLine1}, ${destAddr.englishAddress}`,
     };
 
-    fetch("/api/save-shipment", {
-      method: "POST",
-      body: JSON.stringify(shipmentData),
-    }).finally(() => {
-      // Redirect After Saving
-      router.push(
-        `/${locale}/create-shipment/success?id=${shipmentResponse.id}&barcode=${shipmentResponse.barcode}`
-      );
-    });
+    // Save Shipment Data
+
+    const reqBody = { locales: locale, data: shipmentData };
+
+    axios.post("/api/save-shipment", reqBody);
+
+    router.push(
+      `/${locale}/create-shipment/success?id=${shipmentResponse.id}&barcode=${shipmentResponse.barcode}`
+    );
   };
 
   if (loader) {
@@ -275,6 +285,15 @@ export default function CreateShipmentForm() {
                 placeholder={messages.senderName.placeholder}
                 error={errors.senderName && messages.senderName.error}
                 registerProps={{ ...register("senderName", { required: true }) }}
+              />
+
+              <Input
+                icon="material-symbols:alternate-email"
+                label={messages.senderEmail.label}
+                id="senderEmail"
+                placeholder={messages.senderEmail.placeholder}
+                error={errors.senderEmail && messages.senderEmail.error}
+                registerProps={{ ...register("senderEmail", { required: true }) }}
               />
 
               <Input
@@ -358,6 +377,15 @@ export default function CreateShipmentForm() {
                 placeholder={messages.receiverName.placeholder}
                 error={errors.receiverName && messages.receiverName.error}
                 registerProps={{ ...register("receiverName", { required: true }) }}
+              />
+
+              <Input
+                icon="material-symbols:alternate-email"
+                label={messages.receiverEmail.label}
+                id="receiverEmail"
+                placeholder={messages.receiverEmail.placeholder}
+                error={errors.receiverEmail && messages.receiverEmail.error}
+                registerProps={{ ...register("receiverEmail", { required: true }) }}
               />
 
               <Input
