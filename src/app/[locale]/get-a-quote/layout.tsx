@@ -76,11 +76,11 @@ export default async function GetAQuoteLayout({ children }: { children: React.Re
         <p className="my-6 text-sm">
           {getAQuotePageMessages.helpPara.first}{" "}
           <Link
-            href={"tel:800304448"}
+            href={"tel:8003044448"}
             className="hover:text-shadow-blue-hover text-theme-blue underline"
             dir="ltr"
           >
-            800304448
+            8003044448
           </Link>{" "}
           {getAQuotePageMessages.helpPara.mid}{" "}
           <Link

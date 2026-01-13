@@ -13,6 +13,7 @@ export default function BranchCard({ title, location, contact, email }: BranchCa
       <h5 className="text-base font-medium">📍 {title}</h5>
       <p className="mt-2 hidden text-sm">{location}</p>
       <ul className="mt-4">
+        {/* Whatsapp */}
         <li>
           <Link
             href={`https://api.whatsapp.com/send?phone=${contact}`}
@@ -22,6 +23,15 @@ export default function BranchCard({ title, location, contact, email }: BranchCa
               <Icon icon={"hugeicons:whatsapp"} className="size-4" />
             </span>{" "}
             {contact}
+          </Link>
+        </li>
+        {/* Call */}
+        <li>
+          <Link href={`tel:8003044448`} className="flex items-center gap-2 hover:underline">
+            <span className="flex size-4 items-center">
+              <Icon icon={"hugeicons:call-02"} className="size-4" />
+            </span>{" "}
+            8003044448
           </Link>
         </li>
         {/* Email */}
