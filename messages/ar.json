@@ -2032,6 +2032,11 @@
           "link": "https://maps.app.goo.gl/iGAvzR5hLBnKpUgX9"
         },
         {
+          "icon": "hugeicons:mail-02",
+          "text": "info@adwar.com.sa",
+          "link": "mailto:info@adwar.com.sa"
+        },
+        {
           "icon": "hugeicons:whatsapp",
           "text": "966558996861",
           "link": "https://api.whatsapp.com/send?phone=966558996861"
@@ -2040,11 +2045,6 @@
           "icon": "hugeicons:call-02",
           "text": "8003044448",
           "link": "tel:8003044448"
-        },
-        {
-          "icon": "hugeicons:mail-02",
-          "text": "info@adwar.com.sa",
-          "link": "mailto:info@adwar.com.sa"
         }
       ]
     },

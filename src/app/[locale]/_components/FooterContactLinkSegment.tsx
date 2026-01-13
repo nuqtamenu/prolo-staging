@@ -45,6 +45,14 @@ export default async function FooterContactLinkSegment({
             <span>{links[2].text}</span>
           </Link>
         </li>
+        <li className="w-fit cursor-pointer text-base hover:underline">
+          <Link href={links[3].link} className="flex gap-4" target="_blank">
+            <span className="inline-block size-6">
+              {links[3].icon && <Icon icon={links[3].icon || ""} className="size-6" />}
+            </span>
+            <span>{links[3].text}</span>
+          </Link>
+        </li>
       </ul>
     </div>
   );
