@@ -1,4 +1,9 @@
-import { ContactFormData } from "../types";
+import {
+  ContactFormData,
+  PaymentCompanyEmailProps,
+  PaymentCustomerEmailProps,
+  PaymentLinkEmailProps,
+} from "../types";
 import { englishFooter, englishHeader, arabicHeader, arabicFooter, css } from "./emailComponents";
 
 type Locale = "ar" | "en";
@@ -907,6 +912,7 @@ export const buildCompanyShipEmailBody = ({
   receiverPhone,
 
   // Shipment Details
+  referenceNumber,
   shipmentId,
   trackingId,
   barcodeImageUrl,
@@ -931,6 +937,7 @@ export const buildCompanyShipEmailBody = ({
   destinationAddressEnglish: string;
 
   // Shipment Details
+  referenceNumber: string;
   shipmentType: "COD" | "REGULAR";
   cod: string | number;
   shipmentId: string | number;
@@ -964,6 +971,13 @@ export const buildCompanyShipEmailBody = ({
         <span class="translation">(Tracking ID)</span>:
         <code>${trackingId}</code>
       </li>
+
+      <li>
+       رقم المرجع
+        <span class="translation">(Reference Number)</span>:
+        <code>${referenceNumber}</code>
+      </li>
+      
       <li>
         وصف محتوى الشحنة
         <span class="translation">(Package Description)</span>:
@@ -1144,4 +1158,237 @@ export const buildCompanyShipEmailBody = ({
     <p lang="en" dir="ltr">(Please proceed with operational handling.)</p>
   </section>
 </main>`;
+};
+
+// PAYMENT EMAILS
+// 1. LINK GENERATED
+export const buildCustomerPaymentLinkEmailBody = ({
+  locale,
+  senderName,
+  referenceNumber,
+  amount,
+  paymentLink,
+}: PaymentLinkEmailProps) => {
+  if (locale === "ar") {
+    return `<main>
+      <p>عزيزي <b>${senderName}!</b></p>
+      <h2 class="green">تم إنشاء رابط الدفع الخاص بك</h2>
+      <p>رقم المرجع: <code>${referenceNumber}</code></p>
+      <p>المبلغ المطلوب دفعه</p>
+      <h2>${amount} ريال سعودي</h2>
+
+      <section>
+        <h3>⚠️ إشعار هام</h3>
+        يرجى ملاحظة أن رابط الدفع هذا سينتهي خلال ساعتين.</br>
+        تأكد من إتمام عملية الدفع خلال هذه الفترة لتجنب انتهاء الصلاحية.
+      </section>
+
+      <section>
+        <h3>بمجرد نجاح عملية الدفع:</h3>
+        <ul>
+          <li>📦 سيتم إنشاء شحنتك تلقائيًا</li>
+          <li>📧 ستتلقى إشعارات عبر البريد الإلكتروني حول حالة الدفع والشحنة</li>
+        </ul>
+      </section>
+
+      <section>
+        <!-- CTA -->
+      <p>إذا لم تقم بالدفع بعد، يمكنك الدفع عبر الرابط التالي.</p>
+      <div class="cta">
+        <a class="btn primary" href="${paymentLink}">ادفع الآن</a>
+      </div>
+      </section>
+</main>`;
+  }
+
+  return `<main>
+      <p>Dear <b>${senderName}!</b></p>
+      <h2 class="green">Your payment link has been generated</h2>
+      <p>Reference Number: <code>${referenceNumber}</code></p>
+      <p>Amount To Pay</p>
+      <h2>${amount} SAR</h2>
+
+      <section>
+        <h3>⚠️ Important Notice</h3>
+        Please note that this payment link will expire in 2 hours.</br>Make sure to complete your payment within this time window to avoid expiration.</p>
+      </section>
+
+      <section>
+        <h3>Once your payment is successful:</h3>
+        <ul>
+          <li>📦 Your shipment will be created automatically</li>
+          <li>📧 You will receive email notifications about both your payment and shipment status</li>
+        </ul>
+      </section>
+
+      <section>
+        <!-- CTA -->
+      <p>If you haven't payed yet. You can pay by following link.</p>
+      <div class="cta">
+        <a class="btn primary" href="${paymentLink}">Pay Now</a>
+      </div>
+      </section>
+    </main>`;
+};
+
+// 2. PAYMENT SUCCESSFUL
+// Customer
+export const buildCustomerPaymentEmailBody = ({
+  locale,
+  senderName,
+  referenceNumber,
+  amount,
+  transactionId,
+}: PaymentCustomerEmailProps) => {
+  if (locale === "ar") {
+    return `<main>
+      <p>عزيزي <b>${senderName}!</b></p>
+      <h2 class="green">✅ تم الدفع بنجاح</h2>
+      <p>رقم المرجع: <code>${referenceNumber}</code></p>
+      <p>المبلغ المدفوع</p>
+      <h2>${amount} ريال سعودي</h2>
+
+      <section>
+        <h3>معرّف العملية:</h3>
+        <p><code>${transactionId}</code></p>
+      </section>
+
+      <section>
+        <h3>حالة الشحنة</h3>
+        <ul>
+          <li>📦 نحن الآن نقوم بإنشاء شحنتك.</li>
+          <li>
+            📧 ستتلقى بريدًا إلكترونيًا آخر قريبًا يتضمن تفاصيل الشحنة ومعلومات
+            التتبع.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <p>شكرًا لثقتك في برولو لوجستيك</p>
+        <p>مع أطيب التحيات،</p>
+        <p class="prolo">
+          <b>فريق برولو لوجستيك</b>
+        </p>
+      </section>
+    </main>`;
+  }
+
+  return `<main>
+      <p>Dear <b>${senderName}!</b></p>
+      <h2 class="green">✅ Payment Successful</h2>
+      <p>Reference Number: <code>${referenceNumber}</code></p>
+      <p>Amount Paid</p>
+      <h2>${amount} SAR</h2>
+
+      <section>
+        <h3>Transaction ID:</h3>
+        <p><code>${transactionId}</code></p>
+      </section>
+
+      <section>
+        <h3>Shipment Status</h3>
+        <ul>
+          <li>📦 We are now creating your shipment.</li>
+          <li>
+            📧 You will receive another email shortly with shipment details and tracking information.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <p>Thank you for trusting Prolo Logistics</p>
+        <p>Best regards,</p>
+        <p class="prolo">
+          <b>The Prolo Logistics Team</b>
+        </p>
+      </section>
+    </main>`;
+};
+
+// Company
+export const buildCompanyPaymentEmailBody = ({
+  customerName,
+  customerEmail,
+  transactionId,
+  referenceNumber,
+  amount,
+  timestamp,
+}: PaymentCompanyEmailProps) => {
+  return `<main>
+      <section>
+        <h2 dir="rtl" lang="ar">تم استلام دفعة جديدة بنجاح.</h2>
+        <p class="title-sub">(A new payment has been successfully received)</p>
+      </section>
+
+      <section>
+        <h3 class="translation-div">
+          <span>تفاصيل الدفع</span>
+          <span class="translation">(Payment Details)</span>
+        </h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>الحقل (Field)</th>
+              <th>القيمة (Value)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Customer Name -->
+            <tr>
+              <td>اسم العميل (Customer Name)</td>
+              <td>${customerName}</td>
+            </tr>
+
+            <!-- Email -->
+            <tr>
+              <td>البريد الإلكتروني للعميل (Customer Email)</td>
+              <td>
+                <a href="mailto:${customerEmail}">${customerEmail}</a>
+              </td>
+            </tr>
+
+            <!-- Transaction ID -->
+            <tr>
+              <td>معرّف العملية (Transaction ID)</td>
+              <td>${transactionId}</td>
+            </tr>
+
+            <!-- Reference Number -->
+            <tr>
+              <td>رقم المرجع (Reference Number)</td>
+              <td>${referenceNumber}</td>
+            </tr>
+
+            <!-- Amount -->
+            <tr>
+              <td>المبلغ (Amount)</td>
+              <td>${amount} ريال سعودي</td>
+            </tr>
+
+            <!-- Timestamp -->
+            <tr>
+              <td>وقت الاستلام (Received At)</td>
+              <td>${timestamp}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="translation-div">
+        <p dir="rtl" lang="ar">
+          يرجى البدء في إنشاء الشحنة واستكمال الإجراءات التشغيلية.
+        </p>
+        <p class="translation">
+          (Please proceed with shipment creation and operational handling)
+        </p>
+      </section>
+
+      <section>
+        <p><b>إشعار نظام برولو</b></p>
+        <p class="translation"><b>PROLO System Notification</b></p>
+        <p>© برولو لوجستيك (PROLO Logistics)</p>
+      </section>
+    </main>`;
 };

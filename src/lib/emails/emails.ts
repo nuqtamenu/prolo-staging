@@ -1,6 +1,11 @@
 // Build Subscription Emails
 // Types
-import { CreateShipmentFormData } from "@/lib/types";
+import {
+  CreateShipmentFormData,
+  PaymentCompanyEmailProps,
+  PaymentCustomerEmailProps,
+  PaymentLinkEmailProps,
+} from "@/lib/types";
 type EmailBuild = {
   customerEmail: string;
   companyEmail: string;
@@ -25,9 +30,12 @@ type ShipmentEmailBuilds = {
 import { ContactFormData, GetAQuoteFormData } from "../types";
 import {
   buildCompanyContactEmailBody,
+  buildCompanyPaymentEmailBody,
   buildCompanyQuoteEmailBody,
   buildCompanyShipEmailBody,
   buildCustomerContactEmailBody,
+  buildCustomerPaymentEmailBody,
+  buildCustomerPaymentLinkEmailBody,
   buildCustomerQuoteEmailBody,
   buildReceiverShipEmailBody,
   buildSenderShipEmailBody,
@@ -185,5 +193,55 @@ export const buildShipmentEmails = ({
     receiverEmail,
     companyEmailSubject,
     companyEmail,
+  };
+};
+
+// PAYMENT EMAILS
+
+// 1. Payment Link
+export const buildPaymentLinkEmails = (props: PaymentLinkEmailProps) => {
+  // Customer Emails
+  const customerEmailSubject =
+    props.locale === "ar" ? "رابط الدفع جاهز" : "Your Payment Link Is Ready";
+  const customerEmail = buildEmailBody({
+    locale: props.locale,
+    body: buildCustomerPaymentLinkEmailBody(props),
+    header: getEmailHeader(props.locale),
+    footer: getEmailFooter(props.locale),
+  });
+
+  return { customerEmail, customerEmailSubject };
+};
+
+// 2. Payment (On Successfull Payment)
+export const buildPaymentEmails = (
+  props: PaymentCompanyEmailProps & PaymentCustomerEmailProps
+): EmailBuild => {
+  // Company Email
+  const companyEmailSubject = "تم استلام دفعة جديدة | New Payment Received";
+  const companyEmail = buildEmailBody({
+    locale: "ar",
+    body: buildCompanyPaymentEmailBody(props),
+    header: getEmailHeader("ar"),
+    footer: getEmailFooter("ar"),
+  });
+
+  // Customer Email
+  const customerEmailSubject = props.locale === "ar" ? "تم تأكيد الدفع" : "Payment Confirmed";
+  const customerEmail = buildEmailBody({
+    locale: props.locale,
+    header: getEmailHeader(props.locale),
+    body: buildCustomerPaymentEmailBody(props),
+    footer: getEmailFooter(props.locale),
+  });
+
+  return {
+    // Company
+    companyEmailSubject,
+    companyEmail,
+
+    // Customer
+    customerEmailSubject,
+    customerEmail,
   };
 };

@@ -11,6 +11,7 @@ type Props = {
   icon?: boolean;
   onClick?: () => void;
   loading?: boolean;
+  disabled?: boolean;
 };
 
 export default function ButtonClient({
@@ -20,12 +21,13 @@ export default function ButtonClient({
   direction,
   icon = true,
   onClick,
+  disabled,
   loading = false,
 }: Props) {
   const locale = useLocale();
   return (
     <button
-      disabled={loading}
+      disabled={loading || disabled}
       type={type}
       onClick={onClick && onClick}
       className={`group h-45px flex w-fit items-center rounded-full px-6 py-2 text-base font-medium transition duration-300 ${

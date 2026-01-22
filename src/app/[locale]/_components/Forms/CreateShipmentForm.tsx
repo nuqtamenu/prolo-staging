@@ -10,11 +10,13 @@ import arbicAddresses from "@/adresses/arabic.json";
 import { useRouter } from "next/navigation";
 import type {
   CreateShipmentFormInputs,
-  ShipmentResponse,
-  ApiError,
-  CreateShipmentFormData,
+  PaymentLinkTranslation,
+  SaveFormAndPaymentReqBody,
 } from "@/lib/types";
 import axios from "axios";
+import { createShipmentReference } from "./utils/createShipmentReferece";
+import { getLinkExpiryDate } from "./utils/getLinkExpiryDate";
+import { getPaymentLink } from "./utils/getPaymentLink";
 
 export default function CreateShipmentForm() {
   const {
@@ -68,23 +70,27 @@ export default function CreateShipmentForm() {
     3: ["cod", "notes", "shipmentType", "quantity", "description"],
   };
 
+  // STEP CONTROLLERS
+  // 1. Next Step
   const nextStep = async () => {
     const fieldsToValidate = stepValidationMap[step] || [];
     const isValid = await trigger(fieldsToValidate);
     if (isValid) setStep(prev => prev + 1);
   };
-
+  // 2. Previous Step
   const prevStep = () => setStep(prev => prev - 1);
 
+  // TRANSLATIONS & MESSAGES
   const ctas = useTranslations("ctas");
   const messagesData = useMessages();
   const messages = messagesData.forms.fields;
   const legends = messagesData.forms.legends;
   const formSteps: string[] = messagesData.createShipmentPage.formSteps;
-  const loadingText = messagesData.createShipmentPage.loadingText || "Creating Your Shipment";
+  const loadingText = messagesData.createShipmentPage.loadingText as string;
+  const paymentLinkMessages = messagesData.createShipmentPage.paymentLink as PaymentLinkTranslation;
 
+  // ADDRESS DATA & DEPENDENCIES
   const addresses = isEn ? englishAddresses : arbicAddresses;
-
   function getAddresses(villId: string) {
     const engAdd = englishAddresses.find(add => add.villageId === villId);
     const arAdd = arbicAddresses.find(add => add.villageId === villId);
@@ -95,6 +101,7 @@ export default function CreateShipmentForm() {
     };
   }
 
+  // 1. For Cities (both Origin & Destination)
   const cities = addresses
     .filter((addr, ind, self) => {
       return ind === self.findIndex(t => t.cityId === addr.cityId);
@@ -111,6 +118,7 @@ export default function CreateShipmentForm() {
         .localeCompare(b.name.toLocaleLowerCase(), locale, { sensitivity: "base" })
     );
 
+  // 2. For Destination Adresses
   const [destinationVillages, setDestinationVillages] = useState<
     { value: string | number; name: string }[]
   >([]);
@@ -142,7 +150,7 @@ export default function CreateShipmentForm() {
     }
   }, [destinationCityId, addresses, setValue, locale]);
 
-  // For Origin Adresses
+  // 3. For Origin Adresses
   const [originVillages, setOriginVillages] = useState<{ value: string | number; name: string }[]>(
     []
   );
@@ -174,7 +182,7 @@ export default function CreateShipmentForm() {
     }
   }, [originCityId, addresses, setValue, locale]);
 
-  // Shipment type functionality
+  // SHIPMENT TYPE & COD LOGIC
   const [disableCod, setDisableCod] = useState(false);
   const shipmentType = watch("shipmentType");
 
@@ -188,61 +196,69 @@ export default function CreateShipmentForm() {
     }
   }, [shipmentType, setValue]);
 
+  // FORM SUBMISSION & PAYMENT LINK GENERATION
+  const [paymentLink, setPaymentLink] = useState("");
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [amount, setAmount] = useState(0);
+
+  const visitPaymentLink = (link: string) => {
+    return router.push(link);
+  };
+  // HANDLE FORM SUBMISSION
   const onSubmit: SubmitHandler<CreateShipmentFormInputs> = async data => {
-    console.log(data);
+    const referenceNumber = createShipmentReference(locale as "en" | "ar");
+    const linkExpiry = getLinkExpiryDate(2);
+    const shipmentAmount = data.originCityId === data.destinationCityId ? 35 : 75;
+    setAmount(shipmentAmount);
+
+    // Generate Link
     setLoader(true);
 
-    const shipmentResponse: ShipmentResponse | ApiError = await fetch("/api/create-shipment", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then(res => res.json());
+    const paymentLinkResponse = await getPaymentLink({
+      firstName: data.senderName,
+      email: data.senderEmail,
+      urlExpiry: linkExpiry,
+      referenceNumber: referenceNumber,
+      amount: shipmentAmount,
+      currency: "SAR",
+      reportingField1: "Testing 1",
+    });
 
-    if ("error" in shipmentResponse) {
-      router.push(`/${locale}/create-shipment/failure`);
-      return;
+    if (paymentLinkResponse && paymentLinkResponse !== null) {
+      setPaymentLink(paymentLinkResponse.paymentLink.paymentLink);
+      setNotifyEmail(data.senderEmail);
+
+      // Save Shipment Data & Payment Link
+
+      // Build addresses
+      const originAddr = getAddresses(data.originVillageId);
+      const destAddr = getAddresses(data.destinationVillageId);
+
+      const reqBody: SaveFormAndPaymentReqBody = {
+        formData: {
+          ...data,
+          destinationAddressArabic: `${data.destinationAddressLine1}, ${destAddr.arabicAddress}`,
+          destinationAddressEnglish: `${data.destinationAddressLine1}, ${destAddr.englishAddress}`,
+          originAddressArabic: `${data.originAddressLine1}, ${originAddr.arabicAddress}`,
+          originAddressEnglish: `${data.originAddressLine1}, ${originAddr.englishAddress}`,
+          paymentLinkId: paymentLinkResponse.id,
+          referenceNumber: referenceNumber,
+          locale: locale as "en" | "ar",
+        },
+        paymentLink: paymentLinkResponse,
+      };
+
+      await axios.post("/api/save-form-and-payment-data", reqBody);
+      setLoader(false);
+      nextStep();
     }
 
-    // Build addresses
-    const originAddr = getAddresses(data.originVillageId);
-    const destAddr = getAddresses(data.destinationVillageId);
+    if (!paymentLinkResponse || paymentLinkResponse === null) {
+      setLoader(false);
+      nextStep();
+    }
 
-    const shipmentData: CreateShipmentFormData = {
-      // Shipment
-      shipmentId: shipmentResponse.id,
-      trackingId: shipmentResponse.barcode,
-      barcodeImageUrl: shipmentResponse.barcodeImage,
-      cod: data.cod,
-      shipmentType: data.shipmentType as "COD" | "REGULAR",
-      quantity: data.quantity,
-      notes: data.notes,
-      description: data.description,
-      expectedDeliveryDate: shipmentResponse.expectedDeliveryDate,
-
-      // Sender
-      senderName: data.senderName,
-      senderEmail: data.senderEmail,
-      senderBusinessName: data.businessSenderName,
-      senderPhone: data.senderPhone,
-      originAddressArabic: `${data.originAddressLine1}, ${originAddr.arabicAddress}`,
-      originAddressEnglish: `${data.originAddressLine1}, ${originAddr.englishAddress}`,
-
-      // Receiver
-      receiverName: data.receiverName,
-      receiverEmail: data.receiverEmail,
-      receiverPhone: data.receiverPhone,
-      destinationAddressArabic: `${data.destinationAddressLine1}, ${destAddr.arabicAddress}`,
-      destinationAddressEnglish: `${data.destinationAddressLine1}, ${destAddr.englishAddress}`,
-    };
-
-    // Save Shipment Data
-
-    const reqBody = { locales: locale, data: shipmentData };
-
-    axios.post("/api/save-shipment", reqBody);
-
-    router.push(
-      `/${locale}/create-shipment/success?id=${shipmentResponse.id}&barcode=${shipmentResponse.barcode}`
-    );
+    return;
   };
 
   if (loader) {
@@ -265,7 +281,7 @@ export default function CreateShipmentForm() {
               step === index + 1 ? "border-theme-blue" : "border-gray-300"
             }`}
           >
-            {index + 1}.{label}
+            {index + 1}. {label}
           </div>
         ))}
       </div>
@@ -504,20 +520,62 @@ export default function CreateShipmentForm() {
         </div>
       )}
 
+      {/* -------------------- STEP 4 -------------------- */}
+      {step === 4 && paymentLink ? (
+        <div className="mx-auto w-full max-w-[600px] p-4">
+          <h3 className="font-capitalize mb-4 text-center text-xl font-medium">
+            {paymentLinkMessages.linkGenerated}
+          </h3>
+          <h3 className="font-capitalize mb-4 text-center text-xl font-medium">
+            {amount} {paymentLinkMessages.amountToPay}
+          </h3>
+          <p className="my-2">{paymentLinkMessages.expiryNotice}</p>
+          <p>{paymentLinkMessages.successNote}</p>
+          <ul>
+            <li>{paymentLinkMessages.shipmentCreated}</li>
+            <li>
+              {paymentLinkMessages.emailNotification}
+              <span className="font-medium">{notifyEmail}</span>
+            </li>
+          </ul>
+          <p className="mt-2 mb-4">{paymentLinkMessages.supportNote}</p>
+          <div className="flex items-center justify-center">
+            <ButtonClient
+              type="button"
+              text={paymentLinkMessages.payNow}
+              icon={false}
+              className="rounded-x bg-theme-blue hover:bg-blue-hover text-white"
+              onClick={() => visitPaymentLink(paymentLink)}
+            />
+          </div>
+        </div>
+      ) : (
+        step === 4 && (
+          <div className="mx-auto w-full max-w-[600px] p-4">
+            <h3 className="font-capitalize mb-4 text-center text-xl font-medium text-red-600">
+              {paymentLinkMessages.failedTitle}
+            </h3>
+            <p className="text-center">{paymentLinkMessages.failedMessage}</p>
+          </div>
+        )
+      )}
+
       {/* Navigation Buttons */}
       <div className="mt-6 flex justify-between">
         {step > 1 && (
           <ButtonClient
+            disabled={step === 4}
             type="button"
             text={ctas("back")}
             icon={false}
-            className="rounded-xl bg-gray-300 text-black"
+            className={`rounded-xl bg-gray-300 text-black ${step === 4 ? "hidden" : ""}`}
             onClick={prevStep}
           />
         )}
 
         {step < 3 && (
           <ButtonClient
+            disabled={step === 4}
             type="button"
             text={ctas("next")}
             icon={false}
@@ -529,7 +587,7 @@ export default function CreateShipmentForm() {
         {step === 3 && (
           <ButtonClient
             type="submit"
-            text={ctas("createShipment")}
+            text={`${ctas("checkout")}`}
             icon={false}
             className="rounded-xl bg-green-500 text-white"
           />

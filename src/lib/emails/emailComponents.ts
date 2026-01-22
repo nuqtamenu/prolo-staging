@@ -399,7 +399,7 @@ export const englishFooter = `<div class="footer-content">
         <li>
           📧 Email: <a href="mailto:info@adwar.com.sa">info@adwar.com.sa</a>
         </li>
-        <li>📞 Phone: <a href="tel:+966558996861"> +966558996861</a></li>
+        <li>📞 Phone/Whatsapp: <a href="https://api.whatsapp.com/send?phone=966558996861"> 966558996861</a></li>
         <li>🌐 Website: <a href="https://prolo.sa/en">prolo.sa</a></li>
       </ul>
       <br />

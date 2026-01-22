@@ -17,7 +17,9 @@
     "back": "Back",
     "copy": "copy",
     "subscribing": "Subscribing...",
-    "sending": "Sending..."
+    "sending": "Sending...",
+    "checkout": "Checkout",
+    "sar": "SAR"
   },
   "forms": {
     "placeholders": {
@@ -326,7 +328,7 @@
       "ourSupport": "our support",
       "last": "team for quick help."
     },
-    "formSteps": ["Sender Details", "Receiver Details", "Shipment Details"],
+    "formSteps": ["Sender Details", "Receiver Details", "Shipment Details", "Checkout"],
     "success": {
       "title": "Your shipment has been successfully created 🎉",
       "bookmarkNotice": "☆ Bookmark This Link",
@@ -348,7 +350,19 @@
         "support": "Contact Support"
       }
     },
-    "loadingText": "Creating Your Shipment"
+    "loadingText": "Generating Payment Link",
+    "paymentLink": {
+      "linkGenerated": "✅ Your payment link has been generated.",
+      "amountToPay": "SAR to pay",
+      "expiryNotice": "⚠️ Please note: the link will expire in 02 hours. Make sure to complete your payment within this window.",
+      "successNote": "Once your payment is successful:",
+      "shipmentCreated": "• 📦 Your shipment will be created automatically.",
+      "emailNotification": "• 📧 You’ll receive email notifications about both your payment and shipment status. Your Email:",
+      "supportNote": "No need to worry if you leave this page — we’ll keep you updated. For any issues, our Prolo Support Team is here to help. Thank you for choosing us!",
+      "payNow": "Pay Now",
+      "failedTitle": "Failed To Generate Payment Link",
+      "failedMessage": "Please refresh the page and try again"
+    }
   },
   "contactPage": {
     "pageTitle": {
