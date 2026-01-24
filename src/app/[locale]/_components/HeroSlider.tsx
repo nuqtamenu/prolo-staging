@@ -24,7 +24,7 @@ export default function HeroSlider() {
       >
         <SwiperSlide className="relative">
           <Image
-            src={"/images/hero/hero1.webp"}
+            src={"/images/hero/1.png"}
             alt={`Prolo Professional Logistics Van is moving form desert in Saudia Arabia`}
             className="relative z-[-1] h-full w-full object-cover"
             width={1898}
@@ -36,6 +36,42 @@ export default function HeroSlider() {
         </SwiperSlide>
         <SwiperSlide className="relative">
           <Image
+            src={"/images/hero/2.png"}
+            alt={`Prolo Professional Logistics Van is moving form desert in Saudia Arabia`}
+            className="relative z-[-1] h-full w-full object-cover"
+            width={1898}
+            height={1067}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1898px"
+            loading="eager"
+          />
+          <div className="absolute inset-0 z-2 bg-black/30"></div>
+        </SwiperSlide>
+        <SwiperSlide className="relative">
+          <Image
+            src={"/images/hero/3.png"}
+            alt={`Prolo Professional Logistics Van is moving form desert in Saudia Arabia`}
+            className="relative z-[-1] h-full w-full object-cover"
+            width={1898}
+            height={1067}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1898px"
+            loading="eager"
+          />
+          <div className="absolute inset-0 z-2 bg-black/30"></div>
+        </SwiperSlide>
+        {/* <SwiperSlide className="relative">
+          <Image
+            src={"/images/hero/hero1.webp"}
+            alt={`Prolo Professional Logistics Van is moving form desert in Saudia Arabia`}
+            className="relative z-[-1] h-full w-full object-cover"
+            width={1898}
+            height={1067}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1898px"
+            loading="eager"
+          />
+          <div className="absolute inset-0 z-2 bg-black/30"></div>
+        </SwiperSlide> */}
+        {/* <SwiperSlide className="relative">
+          <Image
             src={"/images/hero/hero2.webp"}
             alt={`Prolo Professional Logistics Van is moving form city in Saudia Arabia`}
             className="relative z-[-1] h-full w-full object-cover"
@@ -45,7 +81,7 @@ export default function HeroSlider() {
             loading="lazy"
           />
           <div className="absolute inset-0 z-2 bg-black/30"></div>
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </div>
   );

@@ -4,7 +4,7 @@ export default function HeroStatic() {
   return (
     <div className="relative h-full w-full">
       <Image
-        src={"/images/hero/hero1.webp"}
+        src={"/images/hero/1.png"}
         alt={`Prolo Professional Logistics Van is moving form desert in Saudia Arabia`}
         className="relative z-[-1] h-full w-full object-cover"
         fill
