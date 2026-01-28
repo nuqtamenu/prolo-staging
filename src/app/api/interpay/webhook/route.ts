@@ -91,7 +91,7 @@ export async function POST(req: Request) {
           }
 
           // ii) Send Confirmation Emails Sender & Receiver & Company
-          sendShipmentEmails({
+          await sendShipmentEmails({
             locales: formData[0].locale,
             data: {
               ...(shipmentResponse as ShipmentResponse),
@@ -106,7 +106,7 @@ export async function POST(req: Request) {
           });
 
           // iii) Save Shipment In Firestore
-          saveShipment({
+          await saveShipment({
             ...(shipmentResponse as ShipmentResponse),
             ...formData[0],
             shipmentId: (shipmentResponse as ShipmentResponse).id,
