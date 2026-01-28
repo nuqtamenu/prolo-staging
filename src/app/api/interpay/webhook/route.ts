@@ -16,13 +16,13 @@ export async function POST(req: Request) {
   // Sending Req body To Developer
   // TODO: Remove This
 
-  // if (developerEmail) {
-  //   sendEmail({
-  //     to: developerEmail,
-  //     subject: "Webhook Request Body",
-  //     html: `<h2>Header</h2><pre><code>${JSON.stringify(req.headers, null, 2)} -- X-API-KEY: ${req.headers.get("X-API-KEY")}</code></pre><h2>Body</h2><pre><code>${JSON.stringify(data, null, 2)}</code></pre>`,
-  //   });
-  // }
+  if (developerEmail) {
+    await sendEmail({
+      to: developerEmail,
+      subject: "Webhook Request Body",
+      html: `<h2>Header</h2><pre><code>${JSON.stringify(req.headers, null, 2)} -- X-API-KEY: ${req.headers.get("X-API-KEY")}</code></pre><h2>Body</h2><pre><code>${JSON.stringify(data, null, 2)}</code></pre>`,
+    });
+  }
 
   // Optional: validate X-API-KEY header
   const apiKey = req.headers.get("X-API-KEY");
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
   if (apiKey !== process.env.X_API_KEY) {
     // Eamil to developer about unauthorized access attempt
     if (developerEmail) {
-      sendEmail({
+      await sendEmail({
         to: developerEmail,
         subject: "Unauthorized Webhook Access Attempt",
         html: `<p>An unauthorized access attempt was made to the Interpay webhook endpoint.</p></br> X-API-KEY Provided: ${apiKey} </br> Time: ${new Date().toISOString()}</p> </br> Details: <code><pre>${JSON.stringify(data, null, 2)}</pre></code>`,
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
 
         if (formData && formData.length === 0) {
           // Send Email To Developer About Missing Form Data
-          sendEmail({
+          await sendEmail({
             to: "nuqtamenu@gmail.com",
             subject: "Missing Shipment Form Data",
             html: `<p>Dear Developer! </br>Shipment Form Data is missing for Reference Number: ${data.referenceNumber}</p></br> Time: ${new Date().toISOString()}</p> </br> Details: <code><pre>${JSON.stringify(data, null, 2)}</pre></code>`,
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
           if ("error" in shipmentResponse) {
             // Send Email To Developer About Shipment Creation Error
             if (developerEmail) {
-              sendEmail({
+              await sendEmail({
                 to: developerEmail,
                 subject: "Shipment Creation Error",
                 html: `<p>Dear Developer! </br>Shipment Creation failed for Reference Number: ${data.referenceNumber}</p></br> Time: ${new Date().toISOString()}</p> </br> Details: <code><pre>${JSON.stringify(data, null, 2)}</pre></code>`,

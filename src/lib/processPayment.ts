@@ -13,7 +13,7 @@ import { buildPaymentEmails } from "./emails/emails";
 export async function processPayment(data: PaymentWebHookRequestBody) {
   try {
     // 1. Save Payment Data
-    savePayment(data);
+    await savePayment(data);
 
     // Get Link Status
     const paymentLinkStatus = await axios.post(
@@ -33,7 +33,7 @@ export async function processPayment(data: PaymentWebHookRequestBody) {
 
     if ("errors" in linkStatus) {
       // Send Email To Developer About Error
-      sendEmail({
+      await sendEmail({
         to: process.env.DEVELOPER_EMAIL || "nuqtamenu@gmail.com",
         subject: "Error Fetching Payment Link Status",
         html: `<p>Dear Developer! </br>An error occurred while fetching the payment link status.</p></br> Time: ${new Date().toISOString()}</p> </br> Details: <code><pre>${JSON.stringify(linkStatus, null, 2)}</pre></code>`,
@@ -63,7 +63,7 @@ export async function processPayment(data: PaymentWebHookRequestBody) {
 
     // Customer Email
     if (linkStatus.email) {
-      sendEmail({
+      await sendEmail({
         to: linkStatus.email,
         subject: customerEmailSubject,
         html: customerEmail,
@@ -73,7 +73,7 @@ export async function processPayment(data: PaymentWebHookRequestBody) {
     // Company Email
     const companyEmailAddress = process.env.COMPANY_PAYEMENT_EMAIL;
     if (companyEmailAddress) {
-      sendEmail({
+      await sendEmail({
         to: companyEmailAddress,
         subject: companyEmailSubject,
         html: companyEmail,
@@ -87,7 +87,7 @@ export async function processPayment(data: PaymentWebHookRequestBody) {
     // Sending Email To Developer About Error
     const developerEmail = process.env.DEVELOPER_EMAIL;
     if (developerEmail) {
-      sendEmail({
+      await sendEmail({
         to: developerEmail,
         subject: "PROLO : Error In Processing Payment",
         html: `<pre><code>${JSON.stringify(error, null, 2)}</code></pre>`,
