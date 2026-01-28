@@ -16,13 +16,13 @@ export async function POST(req: Request) {
   // Sending Req body To Developer
   // TODO: Remove This
 
-  if (developerEmail) {
-    sendEmail({
-      to: developerEmail,
-      subject: "Webhook Request Body",
-      html: `<h2>Header</h2><pre><code>${JSON.stringify(req.headers, null, 2)} -- X-API-KEY: ${req.headers.get("X-API-KEY")}</code></pre><h2>Body</h2><pre><code>${JSON.stringify(data, null, 2)}</code></pre>`,
-    });
-  }
+  // if (developerEmail) {
+  //   sendEmail({
+  //     to: developerEmail,
+  //     subject: "Webhook Request Body",
+  //     html: `<h2>Header</h2><pre><code>${JSON.stringify(req.headers, null, 2)} -- X-API-KEY: ${req.headers.get("X-API-KEY")}</code></pre><h2>Body</h2><pre><code>${JSON.stringify(data, null, 2)}</code></pre>`,
+  //   });
+  // }
 
   // Optional: validate X-API-KEY header
   const apiKey = req.headers.get("X-API-KEY");
