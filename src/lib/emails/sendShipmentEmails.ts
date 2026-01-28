@@ -23,14 +23,14 @@ export async function sendShipmentEmails({
   } = buildShipmentEmails({ locales, data });
 
   // Send Email To Sender
-  sendEmail({
+  await sendEmail({
     to: data.senderEmail,
     subject: senderEmailSubject,
     html: senderEmail,
   });
 
   // Send Email To Receiver
-  sendEmail({
+  await sendEmail({
     to: data.receiverEmail,
     subject: receiverEmailSubject,
     html: receiverEmail,
@@ -38,7 +38,7 @@ export async function sendShipmentEmails({
 
   // Send Email To Company
   if (companyEmailAddress) {
-    sendEmail({
+    await sendEmail({
       to: companyEmailAddress,
       subject: companyEmailSubject,
       html: companyEmail,

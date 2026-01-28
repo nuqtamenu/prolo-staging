@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       //  1. PROCESS PAYMENT
       // - Save Payment Data
       // - Send Confirmational Emails
-      processPayment(data);
+      await processPayment(data);
 
       try {
         // 2. Create Shipment & Send Emails
